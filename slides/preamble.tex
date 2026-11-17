@@ -36,6 +36,9 @@
 \newcommand{\hll}[1]{\textcolor{accent3}{#1}}  % blue accent
 
 % ── Font ──────────────────────────────────────
-\usepackage[sfdefault]{roboto}   % modern sans-serif
-\usefonttheme{professionalfonts}% keep system fonts clean
+% Use TeX Live's standard sans-serif (Latin Modern Sans via default beamer)
+% Roboto is installed but lacks pdftex map entries, so we stick with defaults
+% which are clean, modern, and always available.
+%% Optional: install 'roboto' maps if you want to use it:
+%%   sudo updmap-sys --enable Map=roboto.map && sudo fmtutil-sys --all
 \setbeamerfont{title page}{size=\huge,series=\bfseries}
