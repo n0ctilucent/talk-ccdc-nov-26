@@ -1,0 +1,240 @@
+% !TeX encoding = UTF-8
+% !TeX spellcheck = en_US
+% !TeX TXS-program:compile = txs:///pdflatex/[--shell-escape]
+%
+% AI Art Battle — November 18, 2026 — 5:30 PM MST
+% Franklin Diaz
+
+\documentclass[notes,12pt]{beamer}
+
+\include{preamble}
+
+% ── Themes ──────────────────────────────────────
+\usetheme{Madrid}
+\usecolortheme{dolphin}   % subtle purple tones (lightweight)
+\setbeamercolor{frametitle}{fg=accent1,bg=bgdark!20!white}
+
+% TOC at every section start
+\AtBeginSection[]
+{
+  \begin{frame}{Contents}
+    \tableofcontents[currentsection,hideothersubsections]
+  \end{frame}
+}
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% TITLE SLIDE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[plain]
+  \centering
+  \vspace*{2cm}
+  {\Huge\bfseries\textcolor{accent1}{AI Art Battle}}\\[0.3cm]
+  {\huge\normalfont November 18, 2026 — 5:30 PM MST}\\[0.8cm]
+  {\large Prepared by Franklin Diaz\vrule width 0pt height 10pt}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SECTION 1 — Overview
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Overview}
+
+\begin{frame}{What Is the AI Art Battle?}
+  \begin{itemize}
+    \item A live, competitive showcase of AI-generated art
+    \item Multiple rounds — prompts evolve in real time
+    \item Audience voting + judge panel
+    \item Goal: push creative boundaries of generative models
+  \end{itemize}
+
+  \vspace{-0.5cm}
+  \small\textcolor{bulletcolor}{Why now? The landscape shifts fast — we want to capture it live.}
+\end{frame}
+
+\begin{frame}{Key Details}
+  \begin{description}[style=multiline]
+    \item[\textbf{Date}]    November 18, 2026 (tomorrow!)
+    \item[\textbf{Time}]    5:30 PM MST  (\hll{11:30 UTC})
+    \item[\textbf{Format}]  Live prompts, timed submissions
+    \item[\textbf{Platform}] TBD — streaming + gallery view
+    \item[\textbf{Audience}] Interactive; real-time voting
+  \end{description}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SECTION 2 — Format & Rules
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Format \& Rules}
+
+\begin{frame}{Battle Structure}
+  \begin{enumerate}
+    \item \hl{Round 1} — Theme revealed; participants interpret freely
+    \item \hl{Round 2} — Constraint round (style, medium, palette)
+    \item \hl{Final Round} — Blind prompt; judge's pick + audience vote
+  \end{enumerate}
+
+  \vspace{-0.3cm}
+  {\footnotesize Timed: ~15 min per round, ~30 s upload window}
+\end{frame}
+
+\begin{frame}{Rules of Engagement}
+  \begin{itemize}
+    \item AI-generated only — no hand editing after generation
+    \item All tools/models allowed (open-source or proprietary)
+    \item One submission per round (highest quality)
+    \item Prompt must be shared publicly with each submission
+  \end{itemize}
+
+  \note{Enforce: no inpainting/outpainting that adds content. Style transfer is fine.}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SECTION 3 — Prep & Logistics
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Preparation}
+
+\begin{frame}{What We Need Before Showtime}
+  \begin{itemize}
+    \item Streaming setup (platform, link, test stream)
+    \item Gallery viewer for audience voting
+    \item Judging panel confirmed
+    \item Backup power / internet for participants
+    \item Discord / chat channel for live coordination
+  \end{itemize}
+
+  {\footnotesize\textcolor{accent2}{Status: still in progress — see TODOs below.}}
+\end{frame}
+
+\begin{frame}{Open Questions}
+  \begin{description}
+    \item[Platform] Stream on Twitch / YouTube / both?
+    \item[Voting] Discord poll vs. live web app?
+    \item[Judging] Who are the judges — and what criteria?
+    \item[Audience] Expected attendance count?
+  \end{description}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SECTION 4 — Tools & Models
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Tools \& Models}
+
+\begin{frame}{Contestants' Toolbelt}
+  \begin{columns}[T]
+    \column{0.5\textwidth}
+      {\large\bfseries Image Generators}\\[0.3cm]
+      \begin{itemize}
+        \item Midjourney v7
+        \item DALL·E 3
+        \item Stable Diffusion XL / SD3
+        \item Flux (open-source)
+        \item NovelAI
+      \end{itemize}
+    \column{0.5\textwidth}
+      {\large\bfseries Post-processing}\\[0.3cm]
+      \begin{itemize}
+        \upshape
+        \item Color grading (allowed)
+        \item Upscaling (allowed)
+        \item No content additions
+        \upshape
+        \item Inpainting? — debatable
+      \end{itemize}
+  \end{columns}
+
+  {\footnotesize\textcolor{bulletcolor}{Rule: prompt text must be included with the file.}}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SECTION 5 — Timeline
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Timeline to Showtime}
+
+\begin{frame}{Schedule — Nov 18}
+  \begin{description}
+    \item[13:00 MST] Gates open / streaming test
+    \item[14:30 MST] Final participant briefing
+    \item[15:00 MST] Warm-up demos (non-competitive)
+    \item[17:30 MST] \hl{Showtime!} Round 1 begins
+    \item[20:00 MST] Expected close (results + closing remarks)
+  \end{description}
+
+  \note{Adjust times as needed once we lock the streaming platform.}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SECTION 6 — TODOs
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Action Items}
+
+\begin{frame}{To-Do Before Nov 18}
+  {\footnotesize
+  \begin{itemize}
+    \item[\ ] Confirm streaming platform (Twitch vs. YouTube)
+    \item[\ ] Send out stream link to audience
+    \item[\ ] Lock judging panel (3–5 judges ideal)
+    \item[\ ] Set up gallery / voting system
+    \item[\ ] Draft Discord announcement + rules summary
+    \item[\ ] Confirm participant list + contact method
+    \item[\ ] Test end-to-end: prompt → submission → vote
+    \item[\ ] Backup power for key participants
+  \end{itemize}
+  }
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SECTION 7 — References
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{References}
+
+\begin{frame}{Useful Resources}
+  \begin{itemize}
+    \item AI Art Battle Discord: \url{tbd}
+    \item Previous battle gallery: \url{tbd}
+    \item Streaming guide: \url{tbd}
+    \item Judge criteria document: \url{tbd}
+  \end{itemize}
+
+  {\footnotesize\textcolor{accent3}{Add links as they become available.}}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% CLOSING SLIDE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[plain]
+  \centering
+  \vspace*{2cm}
+  {\Huge\bfseries Thank You}\\[0.5cm]
+  {\huge\normalfont Questions?}\\[1cm]
+  {\large\textcolor{accent3}{Talk slides: github.com/n0ctilucent/talk-ccdc-nov-26}}\\[0.5cm]
+  {\tiny Nov 18, 2026 — AI Art Battle}\\[0.5cm]
+  \rule{4cm}{0.4pt}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% NOTES PAGE CONTENT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\note{
+  This deck is a work-in-progress framework.  \\
+  Slide count so far: ~12 slides (~12 frames). \\
+  Goal: concise enough to keep pace in a live talk setting.
+
+  Key design choices:
+  \begin{itemize}
+    \item Madrid theme — clean, professional bar at top for frame titles
+    \item Dolphin color theme — subtle purple accents without overwhelming content
+    \item Warm orange-red bullets (from talk-auth) to draw attention to key points
+    \item Neon magenta / gold / blue accent palette for visual hierarchy
+    \item Roboto font for modern readability on screen
+  \end{itemize}
+
+  TODOs for slide design:
+  \begin{itemize}
+    \item Consider adding subtle background images or gradients to title/section slides
+    \item Add custom logo/art if available
+    \item Review spacing and contrast before final build
+  \end{itemize}
+}
+
+\end{document}
