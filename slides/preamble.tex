@@ -17,13 +17,14 @@
 \definecolor{accent2}{HTML}{8B5CF6}          % purple
 \definecolor{accent3}{HTML}{3B82F6}          % blue
 \definecolor{bgdark}{HTML}{0F172A}           % deep navy background
-\definecolor{textlight}{HTML}{F8FAFC}        // off-white
-\definecolor{headlight}{HTML}{FDE68A}        // warm gold for headings
+\definecolor{textlight}{HTML}{F8FAFC}        % off-white
+\definecolor{headlight}{HTML}{FDE68A}        % warm gold for headings
 
 \setbeamercolor{local structure}{fg=bulletcolor}
 \setbeamertemplate{itemize items}[circle]
 
 % Hyperlinks
+\usepackage{xurl}
 \usepackage{hyperref}
 \hypersetup{colorlinks=true,urlcolor=blue,linkcolor=accent1}
 
@@ -36,9 +37,6 @@
 \newcommand{\hll}[1]{\textcolor{accent3}{#1}}  % blue accent
 
 % ── Font ──────────────────────────────────────
-% Use TeX Live's standard sans-serif (Latin Modern Sans via default beamer)
-% Roboto is installed but lacks pdftex map entries, so we stick with defaults
-% which are clean, modern, and always available.
-%% Optional: install 'roboto' maps if you want to use it:
-%%   sudo updmap-sys --enable Map=roboto.map && sudo fmtutil-sys --all
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
 \setbeamerfont{title page}{size=\huge,series=\bfseries}
