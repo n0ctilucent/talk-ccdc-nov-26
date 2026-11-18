@@ -1,0 +1,397 @@
+% !TeX encoding = UTF-8
+% !TeX spellcheck = en_US
+% !TeX TXS-program:compile = txs:///pdflatex/[--shell-escape]
+%
+% The Diabolical AI Art Battle: Why LLMs Suck at ASCII Art (v2)
+% Franklin Diaz — November 18, 2026
+% Transamerica Cybersecurity Club — CU Denver Business School
+
+\documentclass[aspectratio=169,11pt,xcolor={table,dvipsnames}]{beamer}
+
+\input{preamble-v2}
+
+\title[Why LLMs Suck at ASCII Art v2]{The Diabolical AI Art Battle}
+\subtitle{Tokenization, Spatial Blind Spots, and the AI Myth}
+\author[Franklin Diaz]{Franklin Diaz\texorpdfstring{\\ \small\texttt{franklin.diaz@ucdenver.edu} \quad \texttt{@n0ctilucent}}{}}
+\institute[CU Denver]{
+  \texorpdfstring{Transamerica Cybersecurity Club \\ Cyber Defense Center (NCAE-C) \\ University of Colorado Denver --- Business School}{Transamerica Cybersecurity Club, CU Denver Business School}
+}
+\date[Nov 18, 2026]{\texorpdfstring{November 18, 2026 --- 5:00 PM to 6:30 PM MST \\ \small JP Morgan Room (1200), Business School}{November 18, 2026}}
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% TITLE SLIDE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[plain]
+  \vfill
+  \begin{columns}[c]
+    \begin{column}{0.73\textwidth}
+      {\Huge \textcolor{white}{\textbf{The Diabolical AI Art Battle}}}\\[0.25cm]
+      {\Large \textcolor{accentcyan}{\textbf{Tokenization, Spatial Blind Spots, and the AI Myth}}}\\[0.5cm]
+      {\normalsize \textbf{Franklin Diaz} \quad \textcolor{accentamber}{\texttt{franklin.diaz@ucdenver.edu}} \quad \textcolor{textmuted}{\texttt{@n0ctilucent}}}\\[0.18cm]
+      {\small \textcolor{textmuted}{Transamerica Cybersecurity Club $\cdot$ Cyber Defense Center (NCAE-C)}}\\[0.08cm]
+      {\small \textcolor{textmuted}{University of Colorado Denver --- Business School}}\\[0.35cm]
+      {\footnotesize \textcolor{accentamber}{\textbf{Wednesday, November 18, 2026}} $\cdot$ 5:00~PM -- 6:30~PM MST $\cdot$ JP Morgan Room (1200)} % chktex 8
+    \end{column}
+    \begin{column}{0.24\textwidth}
+      \centering
+      \colorbox{white}{\qrcode[height=2.5cm]{https://github.com/n0ctilucent/talk-ccdc-nov-26}}\\[0.2cm]
+      {\tiny \textcolor{accentcyan}{\textbf{Scan for Slides/Repo}}}\\
+      {\tiny \textcolor{textmuted}{n0ctilucent/talk-ccdc-nov-26}}
+    \end{column}
+  \end{columns}
+  \vfill
+  \note{Welcome everyone to tonight's session at the Business School. Direct audience to scan the QR code to pull up the repository and slides on their laptops or phones.}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SECTION 1 — Welcome & Agenda
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Welcome \& Club Agenda}
+
+\begin{frame}{Transamerica Cybersecurity Club}
+  \begin{columns}[T]
+    \column{0.55\textwidth}
+      \textbf{\hl{Club Leadership \& Faculty:}}
+      \begin{itemize}
+        \item \textbf{Unsu Mwambo} --- President, Transamerica Cybersecurity Club (BSIS '28)
+        \item \textbf{Joe Murdock, CISSP, CISM} --- Business School Faculty, BSBA Director, \& NCAE-C PoC
+        \item \textbf{Franklin Diaz} --- Technical Session Speaker / Security Architect (\texttt{franklin.diaz@ucdenver.edu})
+      \end{itemize}
+
+      \vspace{0.3cm}
+      \small\hll{Cyber Defense Center:} \\
+      \url{https://www.ucdenver.edu/cyber}
+
+    \column{0.45\textwidth}
+      \begin{block}{Club Announcements}
+        \begin{itemize}
+          \item How to join the club
+          \item Spring competition lineup: CCDC, CTFs, \& defenses
+          \item Hands-on workshops \& industry guest speakers
+        \end{itemize}
+      \end{block}
+      \vspace{0.25cm}
+      \centering
+      \footnotesize\textcolor{accentamber}{\textbf{Meeting in JP Morgan Room (1200)}}
+  \end{columns}
+  \note{Hand off to Unsu for club onboarding, then Joe for CCDC competition timeline.}
+\end{frame}
+
+\begin{frame}{Tonight's 90-Minute Flight Plan}
+  \begin{description}[style=multiline]
+    \item[\hl{5:00 -- 5:15}] \textbf{Welcome \& Club Business} \\ % chktex 8
+      Opening remarks, membership onboarding, spring events.
+    \item[\hl{5:15 -- 5:35}] \textbf{Act I:\@ The AI Myth \& Next-Token Reality} \\ % chktex 8
+      How LLMs actually work: autoregression and subwords.
+    \item[\hl{5:35 -- 5:55}] \textbf{The Battle: Hands-On Diabolical Art Contest} \\ % chktex 8
+      Students vs.\ models: prompting LLMs to draw ASCII art.
+    \item[\hl{5:55 -- 6:10}] \textbf{Act II:\@ Under the Hood of Spatial Failure} \\ % chktex 8
+      Tokenization boundaries, 1D vs 2D, and multimodal limits.
+    \item[\hl{6:10 -- 6:30}] \textbf{Showdown, Security Implications, \& Extended Q\&A} \\ % chktex 8
+      Gallery of horrors, prompt injection risks, 20-min discussion buffer.
+  \end{description}
+  \note{Pacing note: We built in a dedicated 20-minute buffer at 6:10 to ensure plenty of room for student demo projections and live Q&A.}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SECTION 2 — Dispelling the "AI Myth"
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{The ``AI Myth'' vs. Reality}
+
+\begin{frame}{The Illusion of Omniscience}
+  \begin{itemize}
+    \item \textbf{The Perception:} Modern LLMs write poetry, debug kernel code, pass bar exams, and hold nuanced conversations.
+    \item \textbf{The Anthropomorphic Trap:} Because the output is grammatically fluent, we instinctively assume the model possesses \hl{internal reasoning}, a \hl{mental model}, or \hl{visual spatial awareness}.
+    \item \textbf{The Reality:} An LLM is an autoregressive token predictor:
+      \[
+        P(w_t \mid w_1, w_2, \dots, w_{t-1})
+      \]
+    \item It does not ``plan'' a picture, nor does it possess a 2D drawing canvas.
+  \end{itemize}
+
+  \vspace{0.3cm}
+  \begin{quote}
+    \small\textit{``If all goes to plan, people won't even realize they are learning until it is far too late!''}% chktex 38
+  \end{quote}
+  \note{Emphasize that linguistic fluency masks architectural limitations. Grammatical competence does not imply spatial awareness.}
+\end{frame}
+
+\begin{frame}{What Exactly Is a Token?}
+  \begin{columns}[T]
+    \column{0.52\textwidth}
+      \begin{itemize}
+        \item Models do \textbf{not} read individual letters or pixels.
+        \item Text is sliced into subwords via \hl{Byte-Pair Encoding (BPE)} or WordPiece.
+        \item Words like \texttt{``cyber''} might be 1 token; rare combinations are fragmented.
+        \item \textbf{The Whitespace Hazard:} Leading spaces, tabs, and repeating characters map to inconsistent token IDs!
+      \end{itemize}
+
+    \column{0.48\textwidth}
+      \begin{exampleblock}{Tokenization Example (\texttt{cl100k\_base} / GPT-4)}
+        \small
+        \texttt{`` wizard''} $\rightarrow$ \texttt{[12842]} \\
+        \texttt{``wizard''} $\rightarrow$ \texttt{[38411]} \\
+        \texttt{``\ \ *\ \ ''} $\rightarrow$ \texttt{[451, 882]} \\
+        \texttt{``\ \ \ *\ ''} $\rightarrow$ \texttt{[1029, 902]}
+      \end{exampleblock}
+      \vspace{0.2cm}
+      \footnotesize\textcolor{accentamber}{\textbf{Takeaway:}} The model cannot count characters when its input vocabulary lumps characters into arbitrary chunks!
+  \end{columns}
+  \note{Point out how a leading space changes the entire token ID from 38411 to 12842. To a model, ``wizard'' and `` wizard'' are completely different mathematical symbols.}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SECTION 3 — The Diabolical Art Battle
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{The Diabolical Art Battle}
+
+\begin{frame}{Rules of Engagement}
+  \begin{block}{Participant Challenge}
+    Your mission: coax your favorite generative AI into drawing accurate, structured ASCII art to Franklin's \hl{diabolical specifications}.
+  \end{block}
+
+  \vspace{0.3cm}
+  \begin{itemize}
+    \item \textbf{Permitted Weapons:} ChatGPT (GPT-4o/o1), Claude 3.5 Sonnet, Google Gemini 1.5, DeepSeek, or local Ollama models.
+    \item \textbf{Strict Rule:} \textbf{Zero human edits.} No backspacing, no manual whitespace fixing, no copy-paste collage.
+    \item \textbf{Submission:} Paste raw output into a monospaced editor or share on the room projector.
+    \item \textbf{Prize:} Eternal glory for the least deformed creation!
+  \end{itemize}
+  \note{Remind students: strictly zero human editing allowed. If the model misaligns a brace or drops a column, that's what gets shown on the screen.}
+\end{frame}
+
+\begin{frame}{Challenge 1: The Simple Geometric Trap}
+  \begin{columns}[T]
+    \column{0.5\textwidth}
+      \textbf{\hl{Specification:}}
+      \begin{itemize}
+        \item Construct an exact \textbf{10 $\times$ 10} square box made of asterisks \texttt{*}.
+        \item The inside must be empty whitespace.
+        \item Place a single capital \texttt{'X'} dead center (row 5, column 5).
+        \item Include line character counts.
+      \end{itemize}
+
+    \column{0.5\textwidth}
+      \textbf{\hlm{What Actually Happens:}}
+      \begin{itemize}
+        \item Row 1: 10 asterisks
+        \item Row 2: 8 asterisks + 3 spaces
+        \item Row 3: 11 characters
+        \item Center \texttt{X}: Off by 3 columns
+      \end{itemize}
+      \vspace{0.3cm}
+      \centering
+      \small\textcolor{accentcyan}{\textbf{A task a 5-line Python script solves in 1 ms defeats a \$100B model.}}
+  \end{columns}
+  \note{Walk the room as students run Challenge 1. Ask for hands: did anyone's model generate an actual 10 $\times$ 10 square on the first prompt?}
+\end{frame}
+
+\begin{frame}[fragile]{Challenge 2: The Infamous ASCII Wizard}
+  \begin{columns}[T]
+    \column{0.55\textwidth}
+      \textbf{\hl{The Diabolical Wizard Prompt:}}
+      \begin{enumerate}
+        \item A pointed wizard hat with a recognizable brim.
+        \item A face with eyes and a long flowing beard.
+        \item Robes with two distinct arms.
+        \item Right hand holding a magical staff.
+        \item Left hand holding an illuminated orb.
+      \end{enumerate}
+
+      \vspace{0.25cm}
+      \footnotesize\textcolor{accentamber}{\textit{Franklin's Note: ``I was trying to find some of these absolutely terrible wizard drawings I had OpenClaw do\dots{} total eldritch horrors!''}}% chktex 38
+
+    \column{0.45\textwidth}
+      \begin{exampleblock}{Typical Model Output}
+\begin{lstlisting}
+    /\
+   /  \
+  /====\
+ ( . . )  *---Staff
+ ~ | | ~ /
+  /  |  \
+  ===Orb===
+\end{lstlisting}
+      \end{exampleblock}
+      \vspace{0.1cm}
+      \footnotesize The hat floats, the staff is detached, and the beard is inside out!
+  \end{columns}
+  \note{This is the crowd favorite. Model responses will be hilarious; showcase 2--3 examples on the big screen from students.}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SECTION 4 — Under the Hood: Why LLMs Fail
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Why LLMs Fail at ASCII Art}
+
+\begin{frame}{1D Causal Attention vs. 2D Planar Space}
+  \begin{itemize}
+    \item \textbf{Language is 1-Dimensional:} Words follow words linearly in time:
+      \[
+        t_1 \longrightarrow t_2 \longrightarrow t_3 \longrightarrow \dots \longrightarrow t_N
+      \]
+    \item \textbf{Art is 2-Dimensional:} Visual features require spatial alignment across coordinate axes $(x, y)$.
+    \item \textbf{No Retraction Buffer:} When an LLM outputs a character on line 4, it cannot move the cursor up to adjust line 2.
+    \item \textbf{Cumulative Drift:} A single misplaced whitespace token on column 3 shifts every remaining element on that line and cascades to subsequent lines.
+  \end{itemize}
+  \note{Deep dive on the absence of a retraction buffer: human artists constantly erase and look back. Autoregressive models must commit irreversibly token by token.}
+\end{frame}
+
+\begin{frame}{The Spatial Blind Spot}
+  \begin{columns}[T]
+    \column{0.5\textwidth}
+      \textbf{\hl{Why Spatial Reasoning Fails:}}
+      \begin{itemize}
+        \item \textbf{Variable Token Width:} A token can represent 1 character (\texttt{``\textbackslash{}''}) or 6 characters (\texttt{``------''}).
+        \item \textbf{Attention Distance:} The character directly ``above'' on row $N-1$ is separated by dozens of intermediate tokens in 1D sequence memory.
+        \item \textbf{Monospace Blindness:} Training data predominantly mixes variable-width font assumptions.
+      \end{itemize}
+
+    \column{0.5\textwidth}
+      \begin{block}{The 3eon \& Medium Studies}
+        \small
+        \begin{itemize}
+          \item Even fine-tuning on thousands of ASCII examples yields marginal gain.
+          \item Models memorize common templates (e.g.\ basic smiley) but cannot adapt geometry dynamically.
+        \end{itemize}
+      \end{block}
+      \vspace{0.25cm}
+      \footnotesize\hll{\url{https://medium.com/data-science/why-llms-suck-at-ascii-art-a9516cb880d5}}
+  \end{columns}
+  \note{Notice how attention spans degrade over distance: row N-1 is 50--80 tokens away in causal sequence, so maintaining vertical line coordinates is mathematically improbable.}
+\end{frame}
+
+\begin{frame}[t]{Can Multi-Modal (Vision) Models Save Us?}
+  \begin{columns}[T]
+    \column{0.55\textwidth}
+      \textbf{\hl{SkyPilot Research:}} \\
+      \textit{\small ``Can Multi-Modal LLMs Truly See Images?''}% chktex 38
+      \begin{itemize}
+        \small
+        \item Vision-Language Models (VLMs) patchify images ($14 \times 14$ or $16 \times 16$ grid patches).
+        \item They recognize semantic concepts (\textit{``this is a dog''}, \textit{``this is a chart''}).
+        \item They struggle with fine-grained spatial coordinates, line intersections, and counting!
+        \item Asking a VLM to fix ASCII art generates confident hallucinations of alignment.
+      \end{itemize}
+
+    \column{0.45\textwidth}
+      \begin{alertblock}{The Vision Paradox}
+        \small
+        A multi-modal model can describe a picture of a cat, but cannot verify whether column 14 aligns with column 14 on the previous row.
+      \end{alertblock}
+      \vspace{0.2cm}
+      \centering
+      \scriptsize\hll{\url{https://skypilot.ai/blog/can-multi-modal-llms-truely-see-images}}
+  \end{columns}
+  \note{Explain ViT patchification: a 16 $\times$ 16 pixel patch lumps multiple ASCII characters into a single vision token embedding. Fine pixel coordinates are lost.}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SECTION 5 — Cybersecurity Implications
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Cybersecurity Implications}
+
+\begin{frame}{Why Cyber Defenders Should Care}
+  \begin{itemize}
+    \item \textbf{ArtPrompt / ASCII Smuggling:}
+      \begin{itemize}
+        \item Attackers exploit safety filter blind spots by rendering prohibited words (e.g., exploit names, passwords, attack commands) as ASCII art.
+        \item Safety guardrails evaluate semantic text tokens, failing to recognize the visual payload formed by the ASCII contours!
+      \end{itemize}
+    \item \textbf{Token Smuggling \& WAF Bypass:}
+      \begin{itemize}
+        \item Exploiting whitespace and BPE splits to sneak payloads past LLM-based security gateways.
+      \end{itemize}
+    \item \textbf{Log \& Telemetry Parsing Pitfalls:}
+      \begin{itemize}
+        \item Never trust an LLM to accurately parse character-aligned logs (hex dumps, packet captures, memory tables) without strict deterministic tooling.
+      \end{itemize}
+  \end{itemize}
+  \note{Tie back to CCDC & defense: never delegate network packet dissection or hex dump boundary checks to an LLM without deterministic validators.}
+\end{frame}
+
+\begin{frame}{Defensive Takeaways for Security Engineers}
+  \begin{columns}[T]
+    \column{0.5\textwidth}
+      \begin{block}{What LLMs Excel At}
+        \begin{itemize}
+          \item Summarizing threat reports
+          \item Generating boilerplate scripts
+          \item Explaining high-level attack patterns
+          \item Natural language query interfaces
+        \end{itemize}
+      \end{block}
+
+    \column{0.5\textwidth}
+      \begin{alertblock}{What Requires Determinism}
+        \begin{itemize}
+          \item Exact byte / packet parsing
+          \item Memory offset calculations
+          \item Coordinate / spatial layout auditing
+          \item Cryptographic signature checks
+        \end{itemize}
+      \end{alertblock}
+  \end{columns}
+
+  \vspace{0.4cm}
+  \centering
+  \small\textcolor{accentamber}{\textbf{Principle: Use AI for semantic synthesis; use deterministic code for byte precision.}}
+  \note{Core rule of thumb to leave students with: Semantic synthesis = AI;\@ Byte/coordinate precision = Deterministic Code.}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SECTION 6 — References & Closing
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{References \& Community}
+
+\begin{frame}{References \& Further Reading}
+  \begin{itemize}
+    \item \textbf{Experiment 8: LLM-Generated ASCII Art} (3eon): \\
+      \footnotesize\url{https://3eon.medium.com/experiment-8-llm-generated-ascii-art-879e96053867}
+    \item \textbf{Why LLMs Suck at ASCII Art} (Towards Data Science): \\
+      \footnotesize\url{https://medium.com/data-science/why-llms-suck-at-ascii-art-a9516cb880d5}
+    \item \textbf{Can Multi-Modal LLMs Truly See Images?} (SkyPilot AI): \\
+      \footnotesize\url{https://skypilot.ai/blog/can-multi-modal-llms-truely-see-images}
+    \item \textbf{ArtPrompt: ASCII Art-based Jailbreak Attacks against LLMs} (IEEE S\&P / arXiv:2402.11753): \\
+      \footnotesize\url{https://arxiv.org/abs/2402.11753}
+    \item \textbf{CU Denver Cyber Defense Center}: \\
+      \footnotesize\url{https://www.ucdenver.edu/cyber}
+  \end{itemize}
+  \note{Direct students to the arXiv ArtPrompt paper if they want to study jailbreak mechanics for upcoming CCDC and CTF challenges.}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% CLOSING SLIDE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[plain]
+  \vfill
+  \begin{columns}[c]
+    \begin{column}{0.72\textwidth}
+      {\Huge\bfseries\textcolor{accentcyan}{Thank You!}}\\[0.25cm]
+      {\Large\textcolor{white}{Questions, Live Demos, \& Gallery Submissions}}\\[0.5cm]
+
+      \begin{block}{Contact \& Presentation Repository}
+        \small
+        \textbf{Franklin Diaz} --- \texttt{franklin.diaz@ucdenver.edu} \quad (\texttt{@n0ctilucent}) \\
+        \textbf{Transamerica Cybersecurity Club} --- CU Denver Business School \\
+        \textbf{Cyber Defense Center (NCAE-C):} \url{https://www.ucdenver.edu/cyber} \\
+        \textbf{Slide Repository:} \url{https://github.com/n0ctilucent/talk-ccdc-nov-26}
+      \end{block}
+
+      \vspace{0.3cm}
+      {\footnotesize \textcolor{textmuted}{Special thanks to Unsu Mwambo, Prof.\ Joe Murdock, and the Cyber Defense Center!}}
+    \end{column}
+    \begin{column}{0.25\textwidth}
+      \centering
+      \colorbox{white}{\qrcode[height=2.5cm]{https://github.com/n0ctilucent/talk-ccdc-nov-26}}\\[0.2cm]
+      {\tiny \textcolor{accentcyan}{\textbf{Slide Deck \& Code Repo}}}\\
+      {\tiny \textcolor{textmuted}{github.com/n0ctilucent/talk-ccdc-nov-26}}
+    \end{column}
+  \end{columns}
+  \vfill
+  \note{Open floor for questions and project the top 3 student ASCII wizard submissions.}
+\end{frame}
+
+\end{document}

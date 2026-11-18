@@ -1,24 +1,30 @@
 # Makefile for talk-ccdc-nov-26 slides
 
-TARGET = talk-ccdc
-PDF = $(TARGET).pdf
-TEX = $(TARGET).tex
-PREAMBLE = preamble.tex
+TARGET_V2 = talk-ccdc-v2
+PDF_V2 = $(TARGET_V2).pdf
+TEX_V2 = $(TARGET_V2).tex
+PREAMBLE_V2 = preamble-v2.tex
 
 TARGET_V1 = talk-ccdc-v1
 PDF_V1 = $(TARGET_V1).pdf
 TEX_V1 = $(TARGET_V1).tex
 PREAMBLE_V1 = preamble-v1.tex
 
-.PHONY: all pdf pdf-v1 clean distclean lint help
+# Default target is v2
+TARGET = $(TARGET_V2)
+PDF = $(PDF_V2)
+
+.PHONY: all pdf pdf-v2 pdf-v1 clean distclean lint lint-v2 lint-v1 help
 
 all: pdf
 
-pdf: $(PDF)
+pdf: pdf-v2
 
-$(PDF): $(TEX) $(PREAMBLE)
-	pdflatex -shell-escape $(TEX)
-	pdflatex -shell-escape $(TEX)
+pdf-v2: $(PDF_V2)
+
+$(PDF_V2): $(TEX_V2) $(PREAMBLE_V2)
+	pdflatex -shell-escape $(TEX_V2)
+	pdflatex -shell-escape $(TEX_V2)
 
 pdf-v1: $(PDF_V1)
 
@@ -26,11 +32,23 @@ $(PDF_V1): $(TEX_V1) $(PREAMBLE_V1)
 	pdflatex -shell-escape $(TEX_V1)
 	pdflatex -shell-escape $(TEX_V1)
 
-lint:
-	@echo "==> Running ChkTeX audit on $(TEX)..."
+lint: lint-v2
+
+lint-v2:
+	@echo "==> Running ChkTeX audit on $(TEX_V2)..."
 	@if command -v chktex > /dev/null; then \
-		chktex -q $(TEX); \
+		chktex -q $(TEX_V2); \
 		echo "==> Audit complete. Documentation stability: 100%"; \
+	else \
+		echo "ERROR: 'chktex' not found."; \
+		exit 1; \
+	fi
+
+lint-v1:
+	@echo "==> Running ChkTeX audit on $(TEX_V1)..."
+	@if command -v chktex > /dev/null; then \
+		chktex -q $(TEX_V1); \
+		echo "==> Audit complete."; \
 	else \
 		echo "ERROR: 'chktex' not found."; \
 		exit 1; \
@@ -40,12 +58,13 @@ clean:
 	rm -f *.aux *.log *.nav *.out *.snm *.toc *.vrb *.synctex.gz missfont.log
 
 distclean: clean
-	rm -f $(PDF) $(PDF_V1)
+	rm -f $(PDF_V2) $(PDF_V1) talk-ccdc.pdf
 
 help:
 	@echo "Targets:"
-	@echo "  make pdf       - Build updated 16:9 presentation PDF (2 passes)"
-	@echo "  make pdf-v1    - Build legacy 4:3 presentation PDF (2 passes)"
-	@echo "  make lint      - Run ChkTeX linter on updated slides"
+	@echo "  make pdf       - Build presentation PDF (v2 16:9 widescreen default)"
+	@echo "  make pdf-v2    - Explicitly build v2 presentation PDF"
+	@echo "  make pdf-v1    - Build legacy 4:3 presentation PDF"
+	@echo "  make lint      - Run ChkTeX linter on v2 slides"
 	@echo "  make clean     - Remove LaTeX auxiliary files"
 	@echo "  make distclean - Remove auxiliary files and generated PDFs"
