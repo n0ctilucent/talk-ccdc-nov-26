@@ -1,42 +1,141 @@
 %% ──────────────────────────────────────────────
-%% preamble.tex — shared setup for all slides
+%% preamble.tex — High-Contrast Modern Cyber Theme
+%% Aligned with v2 Quest for Greebling design language
 %% ──────────────────────────────────────────────
 
-% Notes pages (plain, Palatino)
-\setbeamertemplate{note page}[plain]
-\setbeamerfont{note page}{family*=pplx,size=\footnotesize}
-
-% Strip navigation symbols entirely
-\beamertemplatenavigationsymbolsempty
-
-% ── Colour palette ───────────────────────────
-% Inspired by talk-auth (warm bullet accent) but expanded
-% for a full AI-art battle theme.  "Neon magenta / deep navy"
-\definecolor{bulletcolor}{RGB}{250,88,45}    % warm orange-red bullets
-\definecolor{accent1}{HTML}{D946EF}          % neon magenta
-\definecolor{accent2}{HTML}{8B5CF6}          % purple
-\definecolor{accent3}{HTML}{3B82F6}          % blue
-\definecolor{bgdark}{HTML}{0F172A}           % deep navy background
-\definecolor{textlight}{HTML}{F8FAFC}        % off-white
-\definecolor{headlight}{HTML}{FDE68A}        % warm gold for headings
-
-\setbeamercolor{local structure}{fg=bulletcolor}
-\setbeamertemplate{itemize items}[circle]
-
-% Hyperlinks
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{qrcode}
 \usepackage{xurl}
 \usepackage{hyperref}
-\hypersetup{colorlinks=true,urlcolor=blue,linkcolor=accent1}
-
-% Absolute positioning (textblock)
+\usepackage{booktabs}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage[T1]{fontenc}
 \usepackage[absolute,overlay]{textpos}
 
-% ── Reusable colour helpers ───────────────────
-\newcommand{\hl}[1]{\textcolor{accent1}{#1}}   % highlight accent 1
-\newcommand{\hlg}[1]{\textcolor{headlight}{#1}}% gold heading accent
-\newcommand{\hll}[1]{\textcolor{accent3}{#1}}  % blue accent
+% --- HIGH CONTRAST MODERN CYBER THEME PALETTE ---
+\definecolor{bgdark}{RGB}{15, 23, 42}           % Deep navy background (#0F172A)
+\definecolor{textlight}{RGB}{242, 245, 249}      % Crisp white/light-gray text (#F8FAFC)
+\definecolor{textmuted}{RGB}{148, 163, 184}      % Muted secondary text (#94A3B8)
+\definecolor{accentcyan}{RGB}{0, 210, 255}       % Electric cyan (#00D2FF)
+\definecolor{accentmagenta}{RGB}{217, 70, 239}   % Neon magenta (#D946EF)
+\definecolor{accentemerald}{RGB}{0, 230, 118}    % Emerald green (#00E676)
+\definecolor{accentamber}{RGB}{255, 179, 0}      % Alert amber (#FFB300)
+\definecolor{accentcoral}{RGB}{250, 88, 45}      % Warm orange-red bullet (#FA582D)
+\definecolor{deepslate}{RGB}{30, 41, 59}         % Card/box background (#1E293B)
+\definecolor{headerblue}{RGB}{12, 17, 26}        % Deep bar header tone
+\definecolor{borderblue}{RGB}{51, 65, 85}        % Card borders (#334155)
+\definecolor{codebg}{RGB}{10, 15, 28}            % Code & terminal background
 
-% ── Font ──────────────────────────────────────
-\usepackage[T1]{fontenc}
-\usepackage{lmodern}
-\setbeamerfont{title page}{size=\huge,series=\bfseries}
+% Legacy color aliases for existing slides
+\definecolor{bulletcolor}{RGB}{250, 88, 45}
+\definecolor{accent1}{RGB}{217, 70, 239}
+\definecolor{accent2}{RGB}{139, 92, 246}
+\definecolor{accent3}{RGB}{0, 210, 255}
+\definecolor{headlight}{RGB}{255, 179, 0}
+
+% --- HYPERLINK SETUP ---
+\hypersetup{colorlinks=true,urlcolor=accentcyan,linkcolor=accentmagenta}
+
+% --- BEAMER THEME COLOR OVERRIDES ---
+\setbeamercolor{background canvas}{bg=bgdark}
+\setbeamercolor{normal text}{fg=textlight}
+\setbeamercolor{frametitle}{bg=headerblue, fg=accentcyan}
+\setbeamercolor{frametitle right}{bg=headerblue}
+\setbeamercolor{title}{bg=headerblue, fg=white}
+\setbeamercolor{subtitle}{fg=accentcyan}
+\setbeamercolor{author}{fg=textlight}
+\setbeamercolor{institute}{fg=textmuted}
+\setbeamercolor{date}{fg=accentamber}
+\setbeamercolor{item}{fg=accentcyan}
+\setbeamercolor{subitem}{fg=accentmagenta}
+\setbeamercolor{subsubitem}{fg=accentamber}
+\setbeamercolor{description item}{fg=accentcyan}
+\setbeamercolor{section in toc}{fg=white}
+\setbeamercolor{section in toc shaded}{fg=textmuted}
+\setbeamertemplate{itemize items}[circle]
+
+% Footer & Header Colors
+\setbeamercolor{author in head/foot}{bg=headerblue, fg=textmuted}
+\setbeamercolor{title in head/foot}{bg=deepslate, fg=accentcyan}
+\setbeamercolor{date in head/foot}{bg=headerblue, fg=textmuted}
+
+% Block Colors
+\setbeamercolor{block title}{bg=deepslate!90!accentcyan, fg=accentcyan}
+\setbeamercolor{block body}{bg=deepslate, fg=textlight}
+\setbeamercolor{block title alerted}{bg=deepslate!90!accentamber, fg=accentamber}
+\setbeamercolor{block body alerted}{bg=deepslate, fg=textlight}
+\setbeamercolor{block title example}{bg=deepslate!90!accentmagenta, fg=accentmagenta}
+\setbeamercolor{block body example}{bg=deepslate, fg=textlight}
+
+% Navigation & Footline
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{footline}{
+  \leavevmode%
+  \hbox{%
+    \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.5ex,dp=1.1ex,left,leftskip=2ex]{author in head/foot}%
+      \usebeamerfont{author in head/foot}\textbf{Franklin Diaz} (\texttt{franklin.diaz@ucdenver.edu})
+    \end{beamercolorbox}%
+    \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.5ex,dp=1.1ex,center]{title in head/foot}%
+      \usebeamerfont{title in head/foot}The Diabolical AI Art Battle
+    \end{beamercolorbox}%
+    \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.5ex,dp=1.1ex,right,rightskip=2ex]{date in head/foot}%
+      \usebeamerfont{date in head/foot}Nov 18, 2026 \quad $\cdot$ \quad \insertframenumber{} / \inserttotalframenumber%
+    \end{beamercolorbox}%
+  }%
+  \vskip0pt%
+}
+
+% Presenter Note Configuration (Clean readable dark-on-light in note view)
+\setbeamercolor{note page}{bg=white, fg=black}
+\setbeamercolor{note title}{bg=gray!20, fg=black}
+\setbeamertemplate{note page}{%
+  \begin{minipage}{\textwidth}
+    \color{black}
+    \insertnote{}
+  \end{minipage}
+}
+
+% --- CODE LISTINGS STYLE ---
+\lstset{
+  backgroundcolor=\color{codebg},
+  basicstyle=\ttfamily\scriptsize\color{textlight},
+  breaklines=true,
+  captionpos=b,
+  commentstyle=\color{textmuted}\itshape,
+  keywordstyle=\color{accentcyan}\bfseries,
+  stringstyle=\color{accentemerald},
+  numbers=none,
+  frame=single,
+  rulecolor=\color{borderblue},
+  showspaces=false,
+  showstringspaces=false,
+  tabsize=2
+}
+
+% --- SECTION TRANSITION SLIDES ---
+\AtBeginSection[]{
+  \begin{frame}[plain]
+    \vfill
+    \centering
+    \begin{beamercolorbox}[sep=14pt,center,rounded=true,shadow=false]{frametitle}
+      {\Huge \textcolor{accentcyan}{\bfseries \insertsectionhead}}\par%
+      \vspace{0.4cm}
+      {\small \textcolor{textmuted}{Transamerica Cybersecurity Club \quad$\cdot$\quad CU Denver Cyber Defense Center}}
+    \end{beamercolorbox}
+    \vfill
+  \end{frame}
+}
+
+% --- REUSABLE HIGHLIGHT HELPERS ---
+\newcommand{\hl}[1]{\textcolor{accentcyan}{\textbf{#1}}}
+\newcommand{\hlm}[1]{\textcolor{accentmagenta}{\textbf{#1}}}
+\newcommand{\hla}[1]{\textcolor{accentamber}{\textbf{#1}}}
+\newcommand{\hle}[1]{\textcolor{accentemerald}{\textbf{#1}}}
+\newcommand{\hlg}[1]{\textcolor{accentamber}{\textbf{#1}}}
+\newcommand{\hll}[1]{\textcolor{accentcyan}{\textbf{#1}}}

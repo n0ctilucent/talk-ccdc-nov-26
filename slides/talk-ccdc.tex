@@ -6,31 +6,13 @@
 % Franklin Diaz — November 18, 2026
 % Transamerica Cybersecurity Club — CU Denver Business School
 
-\documentclass[12pt]{beamer}
+\documentclass[aspectratio=169,11pt,xcolor={table,dvipsnames}]{beamer}
 
 \input{preamble}
 
-% ── Themes & Colors ─────────────────────────────
-\usetheme{Madrid}
-\usecolortheme{dolphin}
-\setbeamercolor{frametitle}{fg=accent1,bg=bgdark!20!white}
-\setbeamercolor{title}{fg=accent1}
-\setbeamercolor{subtitle}{fg=headlight}
-\setbeamercolor{author}{fg=textlight}
-\setbeamercolor{institute}{fg=accent3}
-\setbeamercolor{date}{fg=headlight}
-
-% Section TOC page
-\AtBeginSection[]
-{
-  \begin{frame}{Session Roadmap}
-    \tableofcontents[currentsection,hideothersubsections]
-  \end{frame}
-}
-
 \title[Why LLMs Suck at ASCII Art]{The Diabolical AI Art Battle}
 \subtitle{Tokenization, Spatial Blind Spots, and the AI Myth}
-\author[F. Diaz]{Franklin Diaz\texorpdfstring{\\ \small\texttt{franklin.diaz@ucdenver.edu} \quad \texttt{@n0ctilucent}}{}}
+\author[Franklin Diaz]{Franklin Diaz\texorpdfstring{\\ \small\texttt{franklin.diaz@ucdenver.edu} \quad \texttt{@n0ctilucent}}{}}
 \institute[CU Denver]{
   \texorpdfstring{Transamerica Cybersecurity Club \\ Cyber Defense Center (NCAE-C) \\ University of Colorado Denver --- Business School}{Transamerica Cybersecurity Club, CU Denver Business School}
 }
@@ -42,7 +24,24 @@
 %% TITLE SLIDE
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[plain]
-  \titlepage
+  \vfill
+  \begin{columns}[c]
+    \begin{column}{0.73\textwidth}
+      {\Huge \textcolor{white}{\textbf{The Diabolical AI Art Battle}}}\\[0.25cm]
+      {\Large \textcolor{accentcyan}{\textbf{Tokenization, Spatial Blind Spots, and the AI Myth}}}\\[0.5cm]
+      {\normalsize \textbf{Franklin Diaz} \quad \textcolor{accentamber}{\texttt{franklin.diaz@ucdenver.edu}} \quad \textcolor{textmuted}{\texttt{@n0ctilucent}}}\\[0.18cm]
+      {\small \textcolor{textmuted}{Transamerica Cybersecurity Club $\cdot$ Cyber Defense Center (NCAE-C)}}\\[0.08cm]
+      {\small \textcolor{textmuted}{University of Colorado Denver --- Business School}}\\[0.35cm]
+      {\footnotesize \textcolor{accentamber}{\textbf{Wednesday, November 18, 2026}} $\cdot$ 5:00~PM -- 6:30~PM MST $\cdot$ JP Morgan Room (1200)} % chktex 8
+    \end{column}
+    \begin{column}{0.24\textwidth}
+      \centering
+      \colorbox{white}{\qrcode[height=2.5cm]{https://github.com/n0ctilucent/talk-ccdc-nov-26}}\\[0.2cm]
+      {\tiny \textcolor{accentcyan}{\textbf{Scan for Slides/Repo}}}\\
+      {\tiny \textcolor{textmuted}{n0ctilucent/talk-ccdc-nov-26}}
+    \end{column}
+  \end{columns}
+  \vfill
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -57,10 +56,10 @@
       \begin{itemize}
         \item \textbf{Unsu Mwambo} --- President, Transamerica Cybersecurity Club (BSIS '28)
         \item \textbf{Joe Murdock, CISSP, CISM} --- Business School Faculty, BSBA Director, \& NCAE-C PoC
-        \item \textbf{Franklin Diaz} --- Technical Session Speaker / Security Architect
+        \item \textbf{Franklin Diaz} --- Technical Session Speaker / Security Architect (\texttt{franklin.diaz@ucdenver.edu})
       \end{itemize}
 
-      \vspace{0.2cm}
+      \vspace{0.3cm}
       \small\hll{Cyber Defense Center:} \\
       \url{https://www.ucdenver.edu/cyber}
 
@@ -72,23 +71,23 @@
           \item Hands-on workshops \& industry guest speakers
         \end{itemize}
       \end{block}
-      \vspace{0.2cm}
+      \vspace{0.25cm}
       \centering
-      \footnotesize\textcolor{bulletcolor}{\textbf{Meeting in JP Morgan Room (1200)}}
+      \footnotesize\textcolor{accentamber}{\textbf{Meeting in JP Morgan Room (1200)}}
   \end{columns}
 \end{frame}
 
 \begin{frame}{Tonight's 90-Minute Flight Plan}
   \begin{description}[style=multiline]
-    \item[\hl{5:00 -- 5:15}] \textbf{Welcome \& Club Business} \\
+    \item[\hl{5:00 -- 5:15}] \textbf{Welcome \& Club Business} \\ % chktex 8
       Opening remarks, membership onboarding, spring events.
-    \item[\hl{5:15 -- 5:35}] \textbf{Act I: The AI Myth \& Next-Token Reality} \\
+    \item[\hl{5:15 -- 5:35}] \textbf{Act I:\@ The AI Myth \& Next-Token Reality} \\ % chktex 8
       How LLMs actually work: autoregression and subwords.
-    \item[\hl{5:35 -- 6:00}] \textbf{The Battle: Hands-On Diabolical Art Contest} \\
-      Students vs. models: prompting LLMs to draw ASCII art.
-    \item[\hl{6:00 -- 6:15}] \textbf{Act II: Under the Hood of Spatial Failure} \\
+    \item[\hl{5:35 -- 6:00}] \textbf{The Battle: Hands-On Diabolical Art Contest} \\ % chktex 8
+      Students vs.\ models: prompting LLMs to draw ASCII art.
+    \item[\hl{6:00 -- 6:15}] \textbf{Act II:\@ Under the Hood of Spatial Failure} \\ % chktex 8
       Tokenization boundaries, 1D vs 2D, and multimodal limits.
-    \item[\hl{6:15 -- 6:30}] \textbf{Showdown, Security Implications, \& Q\&A} \\
+    \item[\hl{6:15 -- 6:30}] \textbf{Showdown, Security Implications, \& Q\&A} \\ % chktex 8
       Gallery of horrors, prompt injection risks, takeaways.
   \end{description}
 \end{frame}
@@ -109,9 +108,9 @@
     \item It does not ``plan'' a picture, nor does it possess a 2D drawing canvas.
   \end{itemize}
 
-  \vspace{0.2cm}
+  \vspace{0.3cm}
   \begin{quote}
-    \small\textit{``If all goes to plan, people won't even realize they are learning until it is far too late!''}
+    \small\textit{``If all goes to plan, people won't even realize they are learning until it is far too late!''}% chktex 38
   \end{quote}
 \end{frame}
 
@@ -121,20 +120,20 @@
       \begin{itemize}
         \item Models do \textbf{not} read individual letters or pixels.
         \item Text is sliced into subwords via \hl{Byte-Pair Encoding (BPE)} or WordPiece.
-        \item Words like \texttt{"cyber"} might be 1 token; rare combinations are fragmented.
+        \item Words like \texttt{``cyber''} might be 1 token; rare combinations are fragmented.
         \item \textbf{The Whitespace Hazard:} Leading spaces, tabs, and repeating characters map to inconsistent token IDs!
       \end{itemize}
 
     \column{0.48\textwidth}
       \begin{exampleblock}{Tokenization Example}
         \small
-        \texttt{" wizard"} $\rightarrow$ \texttt{[12842]} \\
-        \texttt{"wizard"} $\rightarrow$ \texttt{[38411]} \\
-        \texttt{"  *  "} $\rightarrow$ \texttt{[451, 882]} \\
-        \texttt{"   * "} $\rightarrow$ \texttt{[1029, 902]}
+        \texttt{`` wizard''} $\rightarrow$ \texttt{[12842]} \\
+        \texttt{``wizard''} $\rightarrow$ \texttt{[38411]} \\
+        \texttt{``\ \ *\ \ ''} $\rightarrow$ \texttt{[451, 882]} \\
+        \texttt{``\ \ \ *\ ''} $\rightarrow$ \texttt{[1029, 902]}
       \end{exampleblock}
-      \vspace{0.1cm}
-      \footnotesize\textcolor{bulletcolor}{\textbf{Takeaway:}} The model cannot count characters when its input vocabulary lumps characters into arbitrary chunks!
+      \vspace{0.2cm}
+      \footnotesize\textcolor{accentamber}{\textbf{Takeaway:}} The model cannot count characters when its input vocabulary lumps characters into arbitrary chunks!
   \end{columns}
 \end{frame}
 
@@ -148,7 +147,7 @@
     Your mission: coax your favorite generative AI into drawing accurate, structured ASCII art to Franklin's \hl{diabolical specifications}.
   \end{block}
 
-  \vspace{0.2cm}
+  \vspace{0.3cm}
   \begin{itemize}
     \item \textbf{Permitted Weapons:} ChatGPT (GPT-4o/o1), Claude 3.5 Sonnet, Google Gemini 1.5, DeepSeek, or local Ollama models.
     \item \textbf{Strict Rule:} \textbf{Zero human edits.} No backspacing, no manual whitespace fixing, no copy-paste collage.
@@ -169,20 +168,20 @@
       \end{itemize}
 
     \column{0.5\textwidth}
-      \textbf{\hl{What Actually Happens:}}
+      \textbf{\hlm{What Actually Happens:}}
       \begin{itemize}
         \item Row 1: 10 asterisks
         \item Row 2: 8 asterisks + 3 spaces
         \item Row 3: 11 characters
         \item Center \texttt{X}: Off by 3 columns
       \end{itemize}
-      \vspace{0.2cm}
+      \vspace{0.3cm}
       \centering
-      \small\textcolor{accent1}{\textbf{A task a 5-line Python script solves in 1 ms defeats a \$100B model.}}
+      \small\textcolor{accentcyan}{\textbf{A task a 5-line Python script solves in 1 ms defeats a \$100B model.}}
   \end{columns}
 \end{frame}
 
-\begin{frame}{Challenge 2: The Infamous ASCII Wizard}
+\begin{frame}[fragile]{Challenge 2: The Infamous ASCII Wizard}
   \begin{columns}[T]
     \column{0.55\textwidth}
       \textbf{\hl{The Diabolical Wizard Prompt:}}
@@ -194,19 +193,20 @@
         \item Left hand holding an illuminated orb.
       \end{enumerate}
 
-      \vspace{0.2cm}
-      \footnotesize\textcolor{bulletcolor}{\textit{Franklin's Note: ``I was trying to find some of these absolutely terrible wizard drawings I had OpenClaw do\dots{} total eldritch horrors!''}}
+      \vspace{0.25cm}
+      \footnotesize\textcolor{accentamber}{\textit{Franklin's Note: ``I was trying to find some of these absolutely terrible wizard drawings I had OpenClaw do\dots{} total eldritch horrors!''}}% chktex 38
 
     \column{0.45\textwidth}
       \begin{exampleblock}{Typical Model Output}
-        \ttfamily\tiny
-        \quad /\textbackslash \\
-        \quad /~~\textbackslash \\
-        \quad /====\textbackslash \\
-        \quad ( . . )  *---Staff \\
-        \quad \textasciitilde{} | | \textasciitilde{} / \\
-        \quad /~~\textbar{}~~\textbackslash \\
-        \quad ===Orb===
+\begin{lstlisting}
+    /\
+   /  \
+  /====\
+ ( . . )  *---Staff
+ ~ | | ~ /
+  /  |  \
+  ===Orb===
+\end{lstlisting}
       \end{exampleblock}
       \vspace{0.1cm}
       \footnotesize The hat floats, the staff is detached, and the beard is inside out!
@@ -235,7 +235,7 @@
     \column{0.5\textwidth}
       \textbf{\hl{Why Spatial Reasoning Fails:}}
       \begin{itemize}
-        \item \textbf{Variable Token Width:} A token can represent 1 character (\texttt{"\textbackslash{}"}) or 6 characters (\texttt{"------"}).
+        \item \textbf{Variable Token Width:} A token can represent 1 character (\texttt{``\textbackslash{}''}) or 6 characters (\texttt{``------''}).
         \item \textbf{Attention Distance:} The character directly ``above'' on row $N-1$ is separated by dozens of intermediate tokens in 1D sequence memory.
         \item \textbf{Monospace Blindness:} Training data predominantly mixes variable-width font assumptions.
       \end{itemize}
@@ -245,10 +245,10 @@
         \small
         \begin{itemize}
           \item Even fine-tuning on thousands of ASCII examples yields marginal gain.
-          \item Models memorize common templates (e.g. basic smiley) but cannot adapt geometry dynamically.
+          \item Models memorize common templates (e.g.\ basic smiley) but cannot adapt geometry dynamically.
         \end{itemize}
       \end{block}
-      \vspace{0.2cm}
+      \vspace{0.25cm}
       \footnotesize\hll{\url{https://medium.com/data-science/why-llms-suck-at-ascii-art-a9516cb880d5}}
   \end{columns}
 \end{frame}
@@ -257,7 +257,7 @@
   \begin{columns}[T]
     \column{0.55\textwidth}
       \textbf{\hl{SkyPilot Research:}} \\
-      \textit{\small ``Can Multi-Modal LLMs Truly See Images?''}
+      \textit{\small ``Can Multi-Modal LLMs Truly See Images?''}% chktex 38
       \begin{itemize}
         \small
         \item Vision-Language Models (VLMs) patchify images ($14 \times 14$ or $16 \times 16$ grid patches).
@@ -271,7 +271,7 @@
         \small
         A multi-modal model can describe a picture of a cat, but cannot verify whether column 14 aligns with column 14 on the previous row.
       \end{alertblock}
-      \vspace{0.1cm}
+      \vspace{0.2cm}
       \centering
       \scriptsize\hll{\url{https://skypilot.ai/blog/can-multi-modal-llms-truely-see-images}}
   \end{columns}
@@ -323,9 +323,9 @@
       \end{alertblock}
   \end{columns}
 
-  \vspace{0.3cm}
+  \vspace{0.4cm}
   \centering
-  \small\textcolor{bulletcolor}{\textbf{Principle: Use AI for semantic synthesis; use deterministic code for byte precision.}}
+  \small\textcolor{accentamber}{\textbf{Principle: Use AI for semantic synthesis; use deterministic code for byte precision.}}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -351,20 +351,31 @@
 %% CLOSING SLIDE
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[plain]
-  \centering
-  \vspace*{1.2cm}
-  {\Huge\bfseries\textcolor{accent1}{Thank You!}}\\[0.3cm]
-  {\Large\normalfont Questions, Demos, \& Gallery Submissions}\\[0.6cm]
+  \vfill
+  \begin{columns}[c]
+    \begin{column}{0.72\textwidth}
+      {\Huge\bfseries\textcolor{accentcyan}{Thank You!}}\\[0.25cm]
+      {\Large\textcolor{white}{Questions, Live Demos, \& Gallery Submissions}}\\[0.5cm]
 
-  \begin{block}{Contact \& Slide Deck}
-    \centering\small
-    \textbf{Franklin Diaz} --- \texttt{franklin.diaz@ucdenver.edu} \quad (\texttt{@n0ctilucent}) \\
-    \textbf{Transamerica Cybersecurity Club} --- CU Denver Business School \\
-    \textbf{Slide Repository:} \url{https://github.com/n0ctilucent/talk-ccdc-nov-26}
-  \end{block}
+      \begin{block}{Contact \& Presentation Repository}
+        \small
+        \textbf{Franklin Diaz} --- \texttt{franklin.diaz@ucdenver.edu} \quad (\texttt{@n0ctilucent}) \\
+        \textbf{Transamerica Cybersecurity Club} --- CU Denver Business School \\
+        \textbf{Cyber Defense Center (NCAE-C):} \url{https://www.ucdenver.edu/cyber} \\
+        \textbf{Slide Repository:} \url{https://github.com/n0ctilucent/talk-ccdc-nov-26}
+      \end{block}
 
-  \vspace{0.4cm}
-  \footnotesize\textcolor{bulletcolor}{Special thanks to Unsu Mwambo, Prof. Joe Murdock, and the Cyber Defense Center!}
+      \vspace{0.3cm}
+      {\footnotesize \textcolor{textmuted}{Special thanks to Unsu Mwambo, Prof.\ Joe Murdock, and the Cyber Defense Center!}}
+    \end{column}
+    \begin{column}{0.25\textwidth}
+      \centering
+      \colorbox{white}{\qrcode[height=2.5cm]{https://github.com/n0ctilucent/talk-ccdc-nov-26}}\\[0.2cm]
+      {\tiny \textcolor{accentcyan}{\textbf{Slide Deck \& Code Repo}}}\\
+      {\tiny \textcolor{textmuted}{github.com/n0ctilucent/talk-ccdc-nov-26}}
+    \end{column}
+  \end{columns}
+  \vfill
 \end{frame}
 
 \end{document}

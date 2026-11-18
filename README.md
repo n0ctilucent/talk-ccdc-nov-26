@@ -17,17 +17,25 @@ A hands-on, interactive workshop designed to dispel the "AI myth" by challenging
 
 ## Slides Build Instructions
 
-Build from the `slides/` directory:
+Build from the project root or `slides/` directory:
 
 ```bash
-cd slides
-pdflatex -shell-escape talk-ccdc.tex    # first pass
-pdflatex -shell-escape talk-ccdc.tex    # second pass (TOC / refs)
+# Build slide deck PDF (2 passes)
+make slides
+
+# Run 100% ChkTeX documentation and syntax audit
+make lint
+
+# Clean temporary LaTeX auxiliary files
+make clean
 ```
 
 ### Required Packages
-- `beamer` (core)
-- `lmodern` / `fontenc` (T1)
+- `beamer` (16:9 widescreen layout)
+- `helvet` / `fontenc` (T1)
+- `qrcode`
+- `listings`
+- `tikz`
 - `xurl` / `hyperref`
 - `textpos`
 
@@ -38,23 +46,26 @@ pdflatex -shell-escape talk-ccdc.tex    # second pass (TOC / refs)
 | **Welcome & Agenda** | Club intro, spring event roadmap, 90-minute session schedule |
 | **The "AI Myth" vs Reality** | Anthropomorphic traps, next-token prediction, Byte-Pair Encoding (BPE), whitespace hazards |
 | **The Diabolical Art Battle** | Rules of engagement, Challenge 1 (Geometric box), Challenge 2 (The Infamous ASCII Wizard) |
-| **Why LLMs Fail at ASCII Art** | 1D causal attention vs 2D spatial matrices, lack of retraction buffer, SkyPilot VLM study |
+| **Why LLMs Fail at ASCII Art** | 1D causal attention vs 2D planar matrices, lack of retraction buffer, SkyPilot VLM study |
 | **Cybersecurity Implications** | ArtPrompt / ASCII smuggling jailbreaks, token smuggling, log telemetry parsing risks |
 | **References & Community** | 3eon experiment, Medium articles, SkyPilot paper, Cyber Defense Center links |
 
 ## Design System
 
-- **Theme**: Madrid — professional top header bar with section tracking
-- **Color Theme**: Dolphin — subtle purple accents
+- **Aspect Ratio**: 16:9 widescreen (`aspectratio=169`) optimized for modern lecture halls and conference displays.
+- **Theme Archetype**: High-Contrast Modern Cyberpunk (aligned with Skynet Minecraft v2 design language).
+- **Navigation & Tracking**: Custom Beamer footline displaying speaker identity, session title, date, and frame pagination.
+- **Interactivity**: Dynamic QR code badges embedded on the Title frame and Closing frame for instant repository and slide downloads.
 - **Accent Palette**:
-  - Warm orange-red (`#FA582D`) — bullets & key highlights (inherited from `talk-auth`)
-  - Neon magenta (`#D946EF`) — frame titles and primary emphases
-  - Purple (`#8B5CF6`) — secondary blocks and badges
-  - Warm gold (`#FDE68A`) — subtitle and heading accents
-  - Deep navy (`#0F172A`) — frame headers and dark elements
-- **Typography**: Latin Modern Sans (`lmodern`) with crisp micro-typographic font metric alignment.
+  - Deep Navy background (`#0F172A`) & Header Blue (`#0C111A`)
+  - Electric Cyan (`#00D2FF`) — primary headings, frame titles, and links
+  - Neon Magenta (`#D946EF`) — section callouts, subheadings, and battle badges
+  - Alert Amber (`#FFB300`) — warnings, meeting details, and alert blocks
+  - Emerald Green (`#00E676`) — example blocks and positive indicators
+  - Off-White Text (`#F8FAFC`) & Muted Slate (`#94A3B8`)
+- **Typography**: Helvetica (`helvet`) sans-serif with crisp monospaced code listings (`listings`).
 
 ## Author & Credits
 
-- **Franklin Diaz** — `@n0ctilucent`
+- **Franklin Diaz** — `franklin.diaz@ucdenver.edu` (`@n0ctilucent`)
 - Special thanks to Unsu Mwambo, Prof. Joe Murdock, and the CU Denver Cyber Defense Center (`https://www.ucdenver.edu/cyber`).

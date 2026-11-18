@@ -1,0 +1,42 @@
+%% ──────────────────────────────────────────────
+%% preamble.tex — shared setup for all slides
+%% ──────────────────────────────────────────────
+
+% Notes pages (plain, Palatino)
+\setbeamertemplate{note page}[plain]
+\setbeamerfont{note page}{family*=pplx,size=\footnotesize}
+
+% Strip navigation symbols entirely
+\beamertemplatenavigationsymbolsempty
+
+% ── Colour palette ───────────────────────────
+% Inspired by talk-auth (warm bullet accent) but expanded
+% for a full AI-art battle theme.  "Neon magenta / deep navy"
+\definecolor{bulletcolor}{RGB}{250,88,45}    % warm orange-red bullets
+\definecolor{accent1}{HTML}{D946EF}          % neon magenta
+\definecolor{accent2}{HTML}{8B5CF6}          % purple
+\definecolor{accent3}{HTML}{3B82F6}          % blue
+\definecolor{bgdark}{HTML}{0F172A}           % deep navy background
+\definecolor{textlight}{HTML}{F8FAFC}        % off-white
+\definecolor{headlight}{HTML}{FDE68A}        % warm gold for headings
+
+\setbeamercolor{local structure}{fg=bulletcolor}
+\setbeamertemplate{itemize items}[circle]
+
+% Hyperlinks
+\usepackage{xurl}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,urlcolor=blue,linkcolor=accent1}
+
+% Absolute positioning (textblock)
+\usepackage[absolute,overlay]{textpos}
+
+% ── Reusable colour helpers ───────────────────
+\newcommand{\hl}[1]{\textcolor{accent1}{#1}}   % highlight accent 1
+\newcommand{\hlg}[1]{\textcolor{headlight}{#1}}% gold heading accent
+\newcommand{\hll}[1]{\textcolor{accent3}{#1}}  % blue accent
+
+% ── Font ──────────────────────────────────────
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\setbeamerfont{title page}{size=\huge,series=\bfseries}
